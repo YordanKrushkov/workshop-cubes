@@ -33,6 +33,13 @@ router.get('/details/:id', async(req, res)=>{
         ...cube
     })
 })
+
+router.get('/createAccessory', (req,res)=>{
+ res.render('createAccessory')
+})
+router.get('/attachAccessory', (req,res)=>{
+ res.render('attach')
+})
 router.get('*', (req, res)=>{
     res.render('404')
 })
