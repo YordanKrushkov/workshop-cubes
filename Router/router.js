@@ -1,15 +1,25 @@
 const express=require('express');
 const router=express.Router();
-
-router.get('/', (req, res)=>{
-    res.render('index')
+const Cube =require('../models/cube')
+const {getAllCubes}=require('../controllers/cubes')
+router.get('/', async(req, res)=>{
+    const cubes= await getAllCubes()
+    res.render('index',{title:'Home | Cube', 
+    cubes})
 })
 
-router.get('/create', (req, res)=>{
+router.get('/create', async(req, res)=>{
+    const cubes= await getAllCubes()
     res.render('create')
 })
 router.post('/create', (req, res)=>{
-    res.render('create')
+    const data=req.body;
+
+    const cube= new Cube({...data});
+    cube.save()
+    .then(()=>{
+        res.redirect('/')
+    })
 })
 
 router.get('/about', (req, res)=>{
