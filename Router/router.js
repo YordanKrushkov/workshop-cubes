@@ -8,8 +8,15 @@ router.get('/', (req, res)=>{
 router.get('/create', (req, res)=>{
     res.render('create')
 })
+router.post('/create', (req, res)=>{
+    res.render('create')
+})
+
 router.get('/about', (req, res)=>{
     res.render('about')
+})
+router.get('/details', (req, res)=>{
+    res.render('cube')
 })
 router.get('*', (req, res)=>{
     res.render('404')
