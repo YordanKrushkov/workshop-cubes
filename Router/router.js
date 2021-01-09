@@ -1,7 +1,9 @@
 const express=require('express');
 const router=express.Router();
 const Cube =require('../models/cube')
-const {getAllCubes,getOneCube}=require('../controllers/cubes')
+const Accessory =require('../models/accessories')
+const {getAllCubes,getOneCube,updateCube}=require('../controllers/cubes')
+const {getAllAccessories, getOneAccessory}=require('../controllers/accessory')
 router.get('/', async(req, res)=>{
     const cubes= await getAllCubes()
     res.render('index',{title:'Home | Cube', 
@@ -34,12 +36,37 @@ router.get('/details/:id', async(req, res)=>{
     })
 })
 
-router.get('/createAccessory', (req,res)=>{
+
+router.get('/create/accessory', (req,res)=>{
  res.render('createAccessory')
 })
-router.get('/attachAccessory', (req,res)=>{
- res.render('attach')
+router.post('/create/accessory', (req,res)=>{
+    const data=req.body;
+
+    const cube= new Accessory({...data});
+    cube.save()
+    .then(()=>{
+        res.redirect('/')
+    })
 })
+
+
+
+router.get('/attach/accessory/:id', async(req,res)=>{
+    const cube= await getOneCube(req.params.id)
+    const accessories= await getAllAccessories();
+    res.render('attach',{title:'Home | Cube', 
+    ...cube,
+    accessories});
+})
+router.post('/attach/accessory/:id', async(req,res)=>{
+    const{accessory}=req.body;
+    await updateCube(req.params.id, accessory)
+    
+    res.redirect(`/details/${req.params.id}`)
+})
+
+
 router.get('*', (req, res)=>{
     res.render('404')
 })
