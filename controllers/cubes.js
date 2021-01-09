@@ -11,7 +11,16 @@ const getOneCube=async(id)=>{
     return cube;
 }
 
+const updateCube=async(cubeId, accessoriesId)=>{
+  await Cube.findByIdAndUpdate(cubeId, {
+        $addToSet:{
+            accessories:[accessoriesId]
+        }
+    })
+}
+
 module.exports=({
     getAllCubes,
-    getOneCube
+    getOneCube,
+    updateCube
 })
