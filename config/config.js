@@ -1,4 +1,4 @@
-const password=require('./password')
+const password=require('../password/password')
 module.exports = {
     development: {
         port: process.env.PORT || 4000,
