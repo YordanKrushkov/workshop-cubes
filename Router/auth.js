@@ -19,7 +19,8 @@ router.post('/register', async(req,res)=>{
 })
 
 router.get('/logout', (req,res)=>{
-    res.render('index')
+    res.clearCookie('aid')
+    res.redirect('/');
 })
 
 module.exports=router;

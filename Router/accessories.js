@@ -3,11 +3,11 @@ const router = express.Router();
 const Accessory = require('../models/accessories')
 const {getOneCube, updateCube} = require('../controllers/cubes')
 const { getAllAccessories } = require('../controllers/accessory')
+const {isAuthenticated} = require('../controllers/auth')
 
 
 
-
-router.get('/create/accessory', (req, res) => {
+router.get('/create/accessory',isAuthenticated, (req, res) => {
     res.render('createAccessory')
 })
 router.post('/create/accessory', (req, res) => {
@@ -20,7 +20,7 @@ router.post('/create/accessory', (req, res) => {
         })
 })
 
-router.get('/attach/accessory/:id', async (req, res) => {
+router.get('/attach/accessory/:id', isAuthenticated, async (req, res) => {
     const cube = await getOneCube(req.params.id)
     const accessories = await getAllAccessories();
 

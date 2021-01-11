@@ -1,7 +1,8 @@
 const express = require('express');
 const handlebars = require('express-handlebars');
-
+const cookieParser = require('cookie-parser')
 module.exports = (app) => {
+    app.use(cookieParser());
     app.use(express.json());
     app.use(express.urlencoded());
     app.engine('.hbs', handlebars({
