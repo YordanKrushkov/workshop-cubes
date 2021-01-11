@@ -4,9 +4,11 @@ const app = require('express')();
 const router = require('./Router/router')
 const cubeRouter = require('./Router/cubes')
 const accessoriesRouter = require('./Router/accessories')
+const authRouter = require('./Router/auth')
 const mongoose=require('mongoose');
 require('./config/express')(app);
 app.use('/', cubeRouter)
+app.use('/', authRouter)
 app.use('/', accessoriesRouter)
 app.use('/', router)
 mongoose.connect(config.dbUrl,{ useNewUrlParser: true,useUnifiedTopology: true } , err=>{
