@@ -19,7 +19,6 @@ router.post('/create', (req, res) => {
 })
 
 router.get('/details/:id', async (req, res) => {
-    console.log(req.params.id);
     const cube = await getCubeWithAccessories(req.params.id)
     res.render('details', {
         title: 'Details | Cube',
