@@ -2,10 +2,12 @@ const User = require('../models/register')
 const Login = require('../models/login')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const privateKey = 'CUBE_WORKSHOP_FIRST'
+const env = process.env.NODE_ENV || 'development';
+const config = require('../config/config')[env];
+
 
 const generateToken = (data) => {
-    const token = jwt.sign(data, privateKey);
+    const token = jwt.sign(data, config.privateKey);
     return token
 }
 
@@ -65,7 +67,7 @@ const isAuthenticated =(req,res, next)=>{
         res.redirect('/')
     }
     try{
-        jwt.verify(token, privateKey)
+        jwt.verify(token, config.privateKey)
         next()
     }
     catch{
@@ -79,7 +81,7 @@ const isLoggedIn=(req, res, next)=>{
         req.isLoggedIn=false;
     }
     try{
-        jwt.verify(token, privateKey)
+        jwt.verify(token, config.privateKey)
         req.isLoggedIn=true;
     }
     catch{

@@ -3,12 +3,15 @@ const router = express.Router();
 const Accessory = require('../models/accessories')
 const {getOneCube, updateCube} = require('../controllers/cubes')
 const { getAllAccessories } = require('../controllers/accessory')
-const {isAuthenticated} = require('../controllers/auth')
+const {isAuthenticated, isLoggedIn} = require('../controllers/auth')
 
 
 
-router.get('/create/accessory',isAuthenticated, (req, res) => {
-    res.render('createAccessory')
+router.get('/create/accessory',isLoggedIn,isAuthenticated, (req, res) => {
+    res.render('createAccessory',{
+        title: 'Create Accesory | Cube',
+        isLoggedIn: req.isLoggedIn,
+    })
 })
 router.post('/create/accessory', (req, res) => {
     const data = req.body;
@@ -20,7 +23,7 @@ router.post('/create/accessory', (req, res) => {
         })
 })
 
-router.get('/attach/accessory/:id', isAuthenticated, async (req, res) => {
+router.get('/attach/accessory/:id',isLoggedIn, isAuthenticated, async (req, res) => {
     const cube = await getOneCube(req.params.id)
     const accessories = await getAllAccessories();
 
@@ -35,7 +38,9 @@ router.get('/attach/accessory/:id', isAuthenticated, async (req, res) => {
         title: 'Home | Cube',
         ...cube,
         accessories: notAttached,
-        canAttach
+        canAttach,
+        title: 'Create Accesory | Cube',
+        isLoggedIn: req.isLoggedIn,
     });
 })
 router.post('/attach/accessory/:id', async (req, res) => {
